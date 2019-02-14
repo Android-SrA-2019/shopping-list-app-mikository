@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (savedInstanceState != null) {
+            items = savedInstanceState.getParcelableArrayList("ITEMS");
+        }
         //Log.d("fuck", "Craate");
         setContentView(R.layout.activity_main);
         layout = (ConstraintLayout)findViewById(R.id.main_constraint);
@@ -88,5 +91,12 @@ public class MainActivity extends AppCompatActivity {
         if(!repeat)
             items.add(item);
         adapter_main.notifyDataSetChanged();
+    }
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(items.size() > 0){
+            outState.putParcelableArrayList("ITEMS", (ArrayList<Item>)items);
+        }
     }
 }
